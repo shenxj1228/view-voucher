@@ -113,7 +113,7 @@
     }
 
     function stringToHtml(data) {
-        return data.split('!STYLEEND')[1].replace(/\n/ig, '<br/>').replace(/\s/ig, '&nbsp;');
+        return data.split('!STYLEEND')[1].replace(/\n/ig, '<br/>').replace(/\s/ig, '&ensp;');
     }
 
     function htmlToString(data) {
