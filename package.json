@@ -1,0 +1,17 @@
+{
+  "name": "view-voucher",
+  "version": "1.0.0",
+  "description": "预览凭单",
+  "main": "app.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Moonkin",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "fs-finder": "^1.8.1",
+    "helmet": "^2.3.0"
+  }
+}
