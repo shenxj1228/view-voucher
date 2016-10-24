@@ -1,5 +1,5 @@
 # view-voucher
-view and edit a easy voucher for ie
+view and edit a easy voucher 
 
 ## 配置
 
