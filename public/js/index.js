@@ -99,7 +99,6 @@
                 currentNode = treeNode;
                 var vucherHtml = stringToHtml(data)
                 $('#voucherContentView').html(vucherHtml);
-                $('#voucherContentView').addClass('has-border');
                 $('.view-top').css('display', 'none');
                 $('#voucherContentEditHeader').val(cutFileContext(data)[0]);
                 $('#voucherContentEditBody').val(cutFileContext(data)[1]);
