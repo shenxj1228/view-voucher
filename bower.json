@@ -1,0 +1,24 @@
+{
+  "name": "view-voucher",
+  "description": "预览凭单",
+  "main": "app.js",
+  "authors": [
+    "Moonkin"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/shenxj1228/view-voucher",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "jquery.toaster": "^1.2.0",
+    "normalize-css": "^5.0.0",
+    "bootstrap": "^3.3.7"
+  }
+}

@@ -31,35 +31,62 @@
     };
     var currentNode;
     var zTreeObj;
+    var paddingWidth = 19.5;
     $(document).ready(function() {
         zTreeObj = $.fn.zTree.init($("#fileTree"), Zsetting, zNodes);
+        if (window.localStorage) {
+            if (window.localStorage.paddingWidth && window.localStorage.paddingWidth != '') {
+                paddingWidth = parseFloat(window.localStorage.paddingWidth);
+
+            }else{
+            	window.localStorage.paddingWidth=paddingWidth;
+            }
+        }
+        $('#inputPand').val(paddingWidth);
+        $('.paperA4').css('padding','0 '+paddingWidth);
+        $('#inputPand').on('change',function(){
+        	paddingWidth=parseFloat($('#inputPand').val());
+        	window.localStorage.paddingWidth=paddingWidth;
+        	$('.paperA4').css('padding','0 '+paddingWidth);
+        });
     });
-    $('#saveReflash').on('click', function() {
-    	if(currentNode.secPath){
-        $.post('/file/' + currentNode.secPath, { context: htmlToString($('#voucherContentEditHeader').val() + $('#voucherContentEditBody').val()) })
-            .done(function(data) {
-                alert('success');
-                getdataTOhtml(currentNode);
-            })
-            .fail(function(err) {
-                alert(err);
-            });
-        }else{
-        	alert('请选择一个凭单');
+
+    $(document).on('keydown', function(e) {
+        if (e.ctrlKey && e.which === 83) {
+            e.preventDefault();
+            e.stopPropagation();
+            if (currentNode && currentNode.secPath)
+                save();
+            return false;
         }
     });
 
+    $('#saveReflash').on('click', function() {
+        save();
+    });
+
+    function save() {
+        if (currentNode.secPath) {
+            $.post('/file/' + currentNode.secPath, { context: htmlToString($('#voucherContentEditHeader').val() + $('#voucherContentEditBody').val()) })
+                .done(function(data) {
+                    getdataTOhtml(currentNode);
+                    $.toaster({ message: '保存成功', title: '保存', priority: 'success' });
+                })
+                .fail(function(err) {
+                    $.toaster({ message: err, title: '保存', priority: 'danger' });
+                });
+        } else {
+            alert('请选择一个凭单');
+        }
+    }
     $('.btn-move').on('click', function() {
         if ($(this).parent().hasClass('col-xs-12')) {
             $(this).parent().removeClass('col-xs-12').addClass('col-xs-6');
             $(this).parent().siblings().css('display', 'block');
-
-
         } else {
             $(this).parent().removeClass('col-xs-6').addClass('col-xs-12');
             $(this).parent().siblings().css('display', 'none');
         }
-        console.log($(this).children('.glyphicon'));
         if ($(this).find('.glyphicon').hasClass('glyphicon-chevron-left')) {
             $(this).find('.glyphicon').removeClass('glyphicon-chevron-left').addClass('glyphicon-chevron-right');
         } else {
@@ -72,6 +99,14 @@
     function ZonClick(event, treeId, treeNode, clickFlag) {
         if (!treeNode.isParent) {
             getdataTOhtml(treeNode);
+        } else {
+            $('.paperA4').removeClass('paper-border');
+            $('#voucherContentView').removeClass('inner-border');
+            $('#voucherContentView').html('');
+            $('.view-top').css('display', 'block');
+            $('.view-bottom').css('display', 'block');
+            $('#voucherContentEditHeader').val('');
+            $('#voucherContentEditBody').val('');
         }
     }
 
@@ -98,8 +133,11 @@
             .done(function(data) {
                 currentNode = treeNode;
                 var vucherHtml = stringToHtml(data)
+                $('.paperA4').addClass('paper-border');
+                $('#voucherContentView').addClass('inner-border');
                 $('#voucherContentView').html(vucherHtml);
                 $('.view-top').css('display', 'none');
+                $('.view-bottom').css('display', 'none');
                 $('#voucherContentEditHeader').val(cutFileContext(data)[0]);
                 $('#voucherContentEditBody').val(cutFileContext(data)[1]);
             })
