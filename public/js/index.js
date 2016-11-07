@@ -29,9 +29,22 @@
 
         }
     };
+    var paperClass = {
+        'A5': 'paper-a5',
+        'A5H': 'paper-a5-h',
+        'A4': 'paper-a4',
+        'A4H': 'paper-a4-h',
+        'A3': 'paper-a3',
+        'A3H': 'paper-a3-h',
+        'A2': 'paper-a2',
+        'A2H': 'paper-a2-h',
+        'A1': 'paper-a1',
+        'A1H': 'paper-a1-h'
+    };
     var currentNode;
     var zTreeObj;
     var paddingWidth = 19.5;
+    var paper = 'A4';
     $(document).ready(function() {
         zTreeObj = $.fn.zTree.init($("#fileTree"), Zsetting, zNodes);
         if (window.localStorage) {
@@ -41,13 +54,26 @@
             } else {
                 window.localStorage.paddingWidth = paddingWidth;
             }
+            if (window.localStorage.paper && window.localStorage.paper != '') {
+                paper = window.localStorage.paper;
+            } else {
+                window.localStorage.paper = paper;
+            }
         }
-        $('#inputPand').val(paddingWidth);
-        $('.paperA4').css('padding', '0 ' + paddingWidth + 'mm');
-        $('#inputPand').on('change', function() {
-            paddingWidth = parseFloat($('#inputPand').val());
+        $('#inputPandWidth').val(paddingWidth);
+        $('#selPaper option[value="'+paper+'"]').attr("selected", true);;
+        $('#paper').addClass(paperClass[paper]);
+        $('#paper').css('padding', '0 ' + paddingWidth + 'mm');
+        $('#inputPandWidth').on('change', function() {
+            paddingWidth = parseFloat($('#inputPandWidth').val());
             window.localStorage.paddingWidth = paddingWidth;
-             $('.paperA4').css('padding', '0 ' + paddingWidth + 'mm');
+            $('#paper').css('padding', '0 ' + paddingWidth + 'mm');
+        });
+        $('#selPaper').on('change', function() {
+            paper = $(this).val();
+            window.localStorage.paper = paper;
+            $('#paper').removeClass();
+            $('#paper').addClass(paperClass[paper]);
         });
     });
 
@@ -100,7 +126,7 @@
         if (!treeNode.isParent) {
             getdataTOhtml(treeNode);
         } else {
-            $('.paperA4').removeClass('paper-border');
+            
             $('#voucherContentView').removeClass('inner-border');
             $('#voucherContentView').html('');
             $('.view-top').css('display', 'block');
@@ -133,7 +159,7 @@
             .done(function(data) {
                 currentNode = treeNode;
                 var vucherHtml = stringToHtml(data)
-                $('.paperA4').addClass('paper-border');
+               
                 $('#voucherContentView').addClass('inner-border');
                 $('#voucherContentView').html(vucherHtml);
                 $('.view-top').css('display', 'none');
@@ -152,7 +178,7 @@
     function stringToHtml(data) {
         if (data.split('!STYLEEND').length > 1) {
             return data.split('!STYLEEND')[1].replace(/\n/ig, '<br/>').replace(/\s/ig, '&ensp;');
-        }else{
+        } else {
             alert('凭单格式不正确，缺少【!STYLEEND】');
         }
     }

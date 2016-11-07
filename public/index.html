@@ -21,8 +21,21 @@
             <div class="container-fluid" style="height:100%;">
                 <div style="color:red;text-align: center;">
                     <div class="form-group">
-                        <label  for="inputPand">纸张A4,左右页边距</label>
-                        <input type="number" size="width:40px;"  id="inputPand" min="0" max="100" step="0.1">
+                        <label  for="selPaper">纸张</label>
+                        <select name="selPaper" id="selPaper">
+                            <option value="A1">A1</option>
+                            <option value="A1H">A1 横</option>
+                            <option value="A2">A2</option>
+                            <option value="A2H">A2 横</option>
+                            <option value="A3">A3</option>
+                            <option value="A3H">A3 横</option>
+                            <option value="A4">A4</option>
+                            <option value="A4H">A4 横</option>
+                            <option value="A5">A5</option>
+                            <option value="A5H">A5 横</option>
+                        </select>
+                        <label  for="inputPandWidth">，左右页边距</label>
+                        <input type="number" size="width:40px;"  id="inputPandWidth" min="0" max="100" step="0.1">
                         <label>mm</label>
                     </div>
                 </div>
@@ -36,7 +49,7 @@
                     </div>
                 </div>
                 <div class="row  v-view">
-                    <div class="paperA4">
+                    <div id="paper">
                         <div style="line-height: 20px; font-family: 宋体; font-size: 9pt;" id="voucherContentView"></div>
                     </div>
                 </div>
