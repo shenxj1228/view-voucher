@@ -38,16 +38,16 @@
             if (window.localStorage.paddingWidth && window.localStorage.paddingWidth != '') {
                 paddingWidth = parseFloat(window.localStorage.paddingWidth);
 
-            }else{
-            	window.localStorage.paddingWidth=paddingWidth;
+            } else {
+                window.localStorage.paddingWidth = paddingWidth;
             }
         }
         $('#inputPand').val(paddingWidth);
-        $('.paperA4').css('padding','0 '+paddingWidth);
-        $('#inputPand').on('change',function(){
-        	paddingWidth=parseFloat($('#inputPand').val());
-        	window.localStorage.paddingWidth=paddingWidth;
-        	$('.paperA4').css('padding','0 '+paddingWidth);
+        $('.paperA4').css('padding', '0 ' + paddingWidth + 'mm');
+        $('#inputPand').on('change', function() {
+            paddingWidth = parseFloat($('#inputPand').val());
+            window.localStorage.paddingWidth = paddingWidth;
+             $('.paperA4').css('padding', '0 ' + paddingWidth + 'mm');
         });
     });
 
@@ -150,7 +150,11 @@
     }
 
     function stringToHtml(data) {
-        return data.split('!STYLEEND')[1].replace(/\n/ig, '<br/>').replace(/\s/ig, '&ensp;');
+        if (data.split('!STYLEEND').length > 1) {
+            return data.split('!STYLEEND')[1].replace(/\n/ig, '<br/>').replace(/\s/ig, '&ensp;');
+        }else{
+            alert('凭单格式不正确，缺少【!STYLEEND】');
+        }
     }
 
     function htmlToString(data) {
